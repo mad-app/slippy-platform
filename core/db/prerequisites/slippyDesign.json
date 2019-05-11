@@ -1,0 +1,9 @@
+{
+  "_id": "_design/slippyDesign",
+  "views": {
+    "getMyApp-view": {
+      "map": "function (doc) {\n  if (doc._id.match(\"^user_\")){\n    if (doc.purchase) {\n      for(var i in doc.purchase) {\n        emit(doc._id, {_id: \"app_\" + doc.purchase[i].name, \"Purchase Info\" : doc.purchase[i]});\n        \n      }\n    }\n  }\n}"
+    }
+  },
+  "language": "javascript"
+}

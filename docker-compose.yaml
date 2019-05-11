@@ -1,0 +1,65 @@
+version: '3'
+
+networks:
+  dev-net:
+    external: true
+
+services:
+  slippy-service:
+    restart: always
+    container_name: slippy-service
+    networks:
+      - dev-net
+    image: registry.smartm2m.co.kr/slippy-service:latest
+
+  slippy-platform:
+    restart: always
+    container_name: slippy-platform
+    image: registry.smartm2m.co.kr/slippy-platform:latest
+    networks:
+      - dev-net
+    environment:
+      - DB_HOST=http://slippy-couchdb
+      - DB_USER=admin
+      - DB_PASSWORD=password
+      - KAFKA_HOST=slippy-kafka
+    depends_on:
+      - slippy-couchdb
+      - slippy-kafka
+    links:
+      - slippy-kafka
+      - slippy-couchdb
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+
+  slippy-kafka:
+    restart: always
+    container_name: slippy-kafka
+    image: wurstmeister/kafka
+    environment:
+      # KAFKA_CREATE_TOPICS: "t1:1:1"
+      KAFKA_LISTENERS: PLAINTEXT://172.30.100.108:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://172.30.100.108:9092
+      KAFKA_ZOOKEEPER_CONNECT: slippy-zookeeper:2181
+    networks:
+      dev-net:
+        ipv4_address: 172.30.100.108
+
+  slippy-zookeeper:
+    restart: always
+    container_name: slippy-zookeeper
+    image: wurstmeister/zookeeper
+    networks:
+      - dev-net
+
+  slippy-couchdb:
+    restart: always
+    container_name: slippy-couchdb
+    image: couchdb
+    networks:
+      dev-net:
+        ipv4_address: 172.30.100.109
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password

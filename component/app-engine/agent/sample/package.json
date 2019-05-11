@@ -1,0 +1,22 @@
+{
+  "name": "sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "node .build/main.js",
+    "build": "rm -rf node_modules && npm i && tsc",
+    "zip": "zip -r sample.zip package.json .build/main.js",
+    "base64": "openssl base64 -in sample.zip -out sample.base64",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "@types/request": "^2.48.1"
+  }
+}

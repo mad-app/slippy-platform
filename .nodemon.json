@@ -1,0 +1,9 @@
+{
+  "watch": ["rest","testing"],
+  "ext": "ts",
+  "ignore": ["*.test.ts"],
+  "delay": "3",
+  "execMap": {
+    "ts": "node_modules/ts-node/dist/bin.js"
+  }
+}

@@ -1,0 +1,14 @@
+database:
+  type: couchdb
+  host: $DB_HOST
+  port: 5984,
+  username: $DB_USER
+  password: $DB_PASSWORD
+  dbname: slippy-platform
+
+marketplace:
+  app_data_path: /Volumes/devel/devel/src/gitlab.smartm2m.co.kr/pin/slippy/.build/app-data
+
+kafka:
+  host: $KAFKA_HOST
+  port: 9092
